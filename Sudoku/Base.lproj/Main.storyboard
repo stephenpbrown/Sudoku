@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SudokuLayout" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MRd-zl-Hd9" userLabel="BackgroundView">
+                                <rect key="frame" x="0.0" y="20" width="414" height="716"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fDc-WH-gie" userLabel="PuzzleView">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
+                                        <color key="backgroundColor" red="0.49576665139999998" green="0.99879545690000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="fDc-WH-gie" secondAttribute="height" multiplier="1:1" id="6ry-BH-2aT"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="44Z-IT-ZSx" userLabel="ButtonsView">
+                                        <rect key="frame" x="0.0" y="414" width="414" height="302"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="160" id="Z8Z-ag-Dkq"/>
+                                        </constraints>
+                                        <variation key="heightClass=compact">
+                                            <mask key="constraints">
+                                                <exclude reference="Z8Z-ag-Dkq"/>
+                                            </mask>
+                                        </variation>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="fDc-WH-gie" firstAttribute="centerY" secondItem="MRd-zl-Hd9" secondAttribute="centerY" id="3tG-xB-936"/>
+                                    <constraint firstAttribute="trailing" secondItem="fDc-WH-gie" secondAttribute="trailing" priority="750" id="ACG-V3-TFe"/>
+                                    <constraint firstItem="44Z-IT-ZSx" firstAttribute="trailing" secondItem="fDc-WH-gie" secondAttribute="trailing" id="Fcb-cL-leq"/>
+                                    <constraint firstItem="fDc-WH-gie" firstAttribute="top" secondItem="MRd-zl-Hd9" secondAttribute="top" id="KaN-55-Ahv"/>
+                                    <constraint firstItem="44Z-IT-ZSx" firstAttribute="leading" secondItem="fDc-WH-gie" secondAttribute="leading" id="Nsw-UD-mSd"/>
+                                    <constraint firstItem="fDc-WH-gie" firstAttribute="centerX" secondItem="MRd-zl-Hd9" secondAttribute="centerX" id="OBh-gM-wsx"/>
+                                    <constraint firstItem="fDc-WH-gie" firstAttribute="leading" secondItem="MRd-zl-Hd9" secondAttribute="leading" id="PwQ-en-9uW"/>
+                                    <constraint firstItem="44Z-IT-ZSx" firstAttribute="top" secondItem="fDc-WH-gie" secondAttribute="bottom" id="TX2-EV-Nza"/>
+                                    <constraint firstAttribute="bottom" secondItem="fDc-WH-gie" secondAttribute="bottom" priority="750" id="Vef-bw-wTj"/>
+                                    <constraint firstItem="fDc-WH-gie" firstAttribute="top" secondItem="MRd-zl-Hd9" secondAttribute="top" id="cuf-zc-ZUN"/>
+                                    <constraint firstItem="44Z-IT-ZSx" firstAttribute="bottom" secondItem="fDc-WH-gie" secondAttribute="bottom" id="gbY-1a-ORP"/>
+                                    <constraint firstItem="44Z-IT-ZSx" firstAttribute="leading" secondItem="fDc-WH-gie" secondAttribute="trailing" id="lpd-1v-yK2"/>
+                                    <constraint firstItem="fDc-WH-gie" firstAttribute="leading" secondItem="MRd-zl-Hd9" secondAttribute="leading" priority="750" id="nO0-0U-sgv"/>
+                                    <constraint firstAttribute="trailing" secondItem="44Z-IT-ZSx" secondAttribute="trailing" id="pid-zB-Y0w"/>
+                                    <constraint firstAttribute="bottom" secondItem="44Z-IT-ZSx" secondAttribute="bottom" id="t7z-aB-YDo"/>
+                                    <constraint firstItem="44Z-IT-ZSx" firstAttribute="top" secondItem="fDc-WH-gie" secondAttribute="top" id="vKy-pb-5VO"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="3tG-xB-936"/>
+                                        <exclude reference="PwQ-en-9uW"/>
+                                        <exclude reference="Vef-bw-wTj"/>
+                                        <exclude reference="cuf-zc-ZUN"/>
+                                        <exclude reference="gbY-1a-ORP"/>
+                                        <exclude reference="lpd-1v-yK2"/>
+                                        <exclude reference="pid-zB-Y0w"/>
+                                        <exclude reference="vKy-pb-5VO"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="3tG-xB-936"/>
+                                        <exclude reference="ACG-V3-TFe"/>
+                                        <exclude reference="KaN-55-Ahv"/>
+                                        <exclude reference="OBh-gM-wsx"/>
+                                        <include reference="PwQ-en-9uW"/>
+                                        <include reference="Vef-bw-wTj"/>
+                                        <include reference="cuf-zc-ZUN"/>
+                                        <exclude reference="nO0-0U-sgv"/>
+                                        <exclude reference="Fcb-cL-leq"/>
+                                        <exclude reference="Nsw-UD-mSd"/>
+                                        <exclude reference="TX2-EV-Nza"/>
+                                        <include reference="gbY-1a-ORP"/>
+                                        <include reference="lpd-1v-yK2"/>
+                                        <include reference="pid-zB-Y0w"/>
+                                        <exclude reference="t7z-aB-YDo"/>
+                                        <include reference="vKy-pb-5VO"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="MRd-zl-Hd9" secondAttribute="trailing" id="PA6-jW-8Vd"/>
+                            <constraint firstItem="MRd-zl-Hd9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Za0-xd-R7c"/>
+                            <constraint firstItem="MRd-zl-Hd9" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="bsb-30-CKt"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="MRd-zl-Hd9" secondAttribute="bottom" id="rv6-ye-L6q"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="117.39130434782609" y="122.40000000000001"/>
+        </scene>
+    </scenes>
+</document>
