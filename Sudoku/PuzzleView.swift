@@ -86,26 +86,28 @@ class PuzzleView: UIView {
                                       width: 0, height: boardRect.height))
             }
             
+            // Highlights the selected cell
             if selected.row >= 0 && selected.column >= 0 {
                 UIColor.lightGray.setFill()
-                let x = boardRect.origin.x + CGFloat(selected.column)*squareSize + 1
-                let y = boardRect.origin.y + CGFloat(selected.row)*squareSize + 1
+                let x = boardRect.origin.x + CGFloat(selected.column)*squareSize + 0.5
+                let y = boardRect.origin.y + CGFloat(selected.row)*squareSize + 0.5
                 
-                context.fill(CGRect(x: x, y: y, width: squareSize-2, height: squareSize-2))
+                context.fill(CGRect(x: x, y: y, width: squareSize-1, height: squareSize-1))
             }
         }
             
         let boldFont = UIFont(name: "Helvetica-Bold", size: 30)
         let fixedAttributes = [NSFontAttributeName : boldFont!, NSForegroundColorAttributeName : UIColor.black]
         
-        // ...
+        // Temp number, row, and col
         let number = 3 // TEMP YO
+        let row = 1
+        let col = 0
+        
         let gridSize = boardRect.width
         let delta = gridSize/3
         let d = delta/3
-        let gridOrigin = CGPoint(x: boardRect.origin.x, y: boardRect.origin.y)
-        let row = 1
-        let col = 0
+        let gridOrigin = boardRect.origin
         
         let text = "\(number)" as NSString
         let textSize = text.size(attributes: fixedAttributes)
@@ -124,7 +126,7 @@ class PuzzleView: UIView {
         let gridSize = boardRect.width
         let delta = gridSize/3
         let d = delta/3
-        let gridOrigin = CGPoint(x: boardRect.origin.x, y: boardRect.origin.y)
+        let gridOrigin = boardRect.origin
         
         let col = Int((tapPoint.x - gridOrigin.x)/d)
         let row = Int((tapPoint.y - gridOrigin.y)/d)
@@ -141,6 +143,88 @@ class PuzzleView: UIView {
                     setNeedsDisplay() // request redraw
                 }
             }
+        }
+    }
+    
+    // Programically set buttons
+    let buttonTagsPortrait = [ // 2x6 button layout 
+        [1, 2, 3, 4, 5, 11], // tags assigned in IB
+        [6, 7, 8, 9, 10, 12]
+    ]
+    
+    let buttonTagsPortraitTall = [ // 3x4 layout
+        [1, 2, 3, 11],
+        [4, 5, 6, 10],
+        [7, 8, 9, 12]
+    ]
+    
+    let buttonTagsLandscape = [ // 6x2 layout
+        [1,6],
+        [2,7],
+        [3,8],
+        [4,9],
+        [5,10],
+        [11,12]
+    ]
+    
+    let buttonTagsLandscapeTall = [ // 4x3 layout
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+        [10, 11, 12]
+    ]
+    
+    let aspectRatiosForLayouts : [Float] = [
+        3.0, // 2 x 6
+        4.0/3, // 3x4
+        1.0/3, // 6x2
+        3.0/4 // 4 x 3 
+    ]
+    
+    override func layoutSubviews() {
+        super.layoutSubviews() // let Auto Layout finish
+        let aspectRatio = Float(self.bounds.size.width / self.bounds.size.height)
+        var closestLayout = 0
+        var closestLayoutDiff = fabsf(aspectRatio - aspectRatiosForLayouts[0])
+        for i in 1 ..< 4 {
+            let diff = fabsf(aspectRatio - aspectRatiosForLayouts[i])
+            if (diff < closestLayoutDiff) {
+                closestLayout = i
+                closestLayoutDiff = diff
+            }
+        }
+        
+        let buttonTagsFlavors = [
+            buttonTagsPortrait, buttonTagsPortraitTall, buttonTagsLandscape, buttonTagsLandscapeTall
+        ]
+        
+        let buttonTags = buttonTagsFlavors[closestLayout]
+        
+        func integersWithSum(sum : Int, count : Int) -> [Int] {
+            var ints = [Int](repeating: sum / count, count: count)
+            let r = sum % count
+            for i in 0 ..< r {ints[i] += 1}
+            return ints
+        }
+        
+        let inset = 1
+        let W = Int(self.bounds.width) - 2*inset, H = Int(self.bounds.height) - 2*inset
+        let numColumns = buttonTags[0].count, numRows = buttonTags.count
+        let widths  = integersWithSum(sum: W, count: numColumns)
+        let heights = integersWithSum(sum: H, count: numRows)
+        var y = CGFloat(inset)
+        
+        for r in 0 ..< numRows {
+            let h = CGFloat(heights[r])
+            var x = CGFloat(inset)
+            for c in 0 ..< numColumns {
+                let w = CGFloat(widths[c])
+                let button = self.viewWithTag(buttonTags[r][c])
+                button?.bounds = CGRect(x: 0, y: 0, width: w, height: h)
+                button?.center = CGPoint(x: (x + w/2), y: (y + h/2))
+                x += w
+            }
+            y += h
         }
     }
 }

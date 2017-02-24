@@ -20,6 +20,24 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    
+    @IBAction func numberSelected(_ sender: UIButton) {
+        let tag = sender.tag
+        
+        NSLog("number selected: \(tag)")
+    }
+    
+    @IBAction func deleteButton(_ sender: UIButton) {
+        NSLog("delete")
+    }
+    
+    @IBAction func pencilButton(_ sender: UIButton) {
+        NSLog("pencil")
+    }
+    
+    
+    @IBAction func menuButton(_ sender: UIButton) {
+        NSLog("menu")
+    }
 }
 
