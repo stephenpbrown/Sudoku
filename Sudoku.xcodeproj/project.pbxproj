@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC407EA81E60E2E300582CEE /* SudokuPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC407EA71E60E2E300582CEE /* SudokuPuzzle.swift */; };
 		AC90B9B21E4A395B00FCE8F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90B9B11E4A395B00FCE8F8 /* AppDelegate.swift */; };
 		AC90B9B41E4A395B00FCE8F8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90B9B31E4A395B00FCE8F8 /* ViewController.swift */; };
 		AC90B9B71E4A395B00FCE8F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC90B9B51E4A395B00FCE8F8 /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AC407EA71E60E2E300582CEE /* SudokuPuzzle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SudokuPuzzle.swift; sourceTree = "<group>"; };
 		AC90B9AE1E4A395B00FCE8F8 /* Sudoku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sudoku.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC90B9B11E4A395B00FCE8F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AC90B9B31E4A395B00FCE8F8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 				AC90B9B11E4A395B00FCE8F8 /* AppDelegate.swift */,
 				AC90B9B31E4A395B00FCE8F8 /* ViewController.swift */,
 				ACEFBF731E5F6EB600FA794C /* PuzzleView.swift */,
+				AC407EA71E60E2E300582CEE /* SudokuPuzzle.swift */,
 				AC90B9B51E4A395B00FCE8F8 /* Main.storyboard */,
 				AC90B9B81E4A395B00FCE8F8 /* Assets.xcassets */,
 				AC90B9BA1E4A395B00FCE8F8 /* LaunchScreen.storyboard */,
@@ -141,6 +144,7 @@
 			files = (
 				AC90B9B41E4A395B00FCE8F8 /* ViewController.swift in Sources */,
 				AC90B9B21E4A395B00FCE8F8 /* AppDelegate.swift in Sources */,
+				AC407EA81E60E2E300582CEE /* SudokuPuzzle.swift in Sources */,
 				ACEFBF741E5F6EB600FA794C /* PuzzleView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
