@@ -38,6 +38,37 @@ class ViewController: UIViewController {
     
     @IBAction func menuButton(_ sender: UIButton) {
         NSLog("menu")
+        
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        let puzzle = appDelegate.sudoku
+//        
+//        let alertController = UIAlertController(
+//            title: "Main Menu",
+//            message: nil,
+//            preferredStyle: .actionSheet)
+//        
+//        alertController.addAction(UIAlertAction(
+//            title: "Cancel",
+//            style: .cancel,
+//            handler: nil))
+//        alertController.addAction(UIAlertAction(
+//            title: "New Easy Game",
+//            style: .default,
+//            handler: { (UIAlertAction) -> Void in
+//                let puzzleStr = randomPuzzle(appDelegate.simplePuzzles)
+//                puzzle.loadPuzzle(puzzleStr)
+//                self.selectFirstAvailableCell()
+//                self.puzzleView.setNeedsDisplay()}))
+//        
+//         ... add other actions ...
+//        if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad {
+//            let popoverPresenter = alertController.popoverPresentationController
+//            let menuButtonTag = 12
+//            let menuButton = buttonsView.viewWithTag(menuButtonTag)
+//            popoverPresenter?.sourceView = menuButton
+//            popoverPresenter?.sourceRect = (menuButton?.bounds)!
+//        }
+//        self.present(alertController, animated: true, completion: nil)
     }
 }
 

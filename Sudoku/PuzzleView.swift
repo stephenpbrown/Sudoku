@@ -100,21 +100,30 @@ class PuzzleView: UIView {
         let fixedAttributes = [NSFontAttributeName : boldFont!, NSForegroundColorAttributeName : UIColor.black]
         
         // Temp number, row, and col
-        let number = 3 // TEMP YO
-        let row = 1
-        let col = 0
+        //let number = 3 // TEMP YO
+        //let row = 1
+        //let col = 0
         
         let gridSize = boardRect.width
         let delta = gridSize/3
         let d = delta/3
         let gridOrigin = boardRect.origin
         
-        let text = "\(number)" as NSString
-        let textSize = text.size(attributes: fixedAttributes)
-        let x = gridOrigin.x + CGFloat(col)*d + 0.5*(d - textSize.width)
-        let y = gridOrigin.y + CGFloat(row)*d + 0.5*(d - textSize.height)
-        let textRect = CGRect(x: x, y: y, width: textSize.width, height: textSize.height)
-        text.draw(in: textRect, withAttributes: fixedAttributes)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let puzzle = appDelegate.sudoku // fetch model data
+        
+        for row in 0 ..< 9 {
+            for col in 0 ..< 9 {
+                if puzzle!.puzzle[row][col] != 0 {
+                    let text = "\(puzzle!.puzzle[row][col])" as NSString
+                    let textSize = text.size(attributes: fixedAttributes)
+                    let x = gridOrigin.x + CGFloat(col)*d + 0.5*(d - textSize.width)
+                    let y = gridOrigin.y + CGFloat(row)*d + 0.5*(d - textSize.height)
+                    let textRect = CGRect(x: x, y: y, width: textSize.width, height: textSize.height)
+                    text.draw(in: textRect, withAttributes: fixedAttributes)
+                }
+            }
+        }
     }
     
     func handleTap(_ sender : UIGestureRecognizer) {
@@ -175,10 +184,10 @@ class PuzzleView: UIView {
     ]
     
     let aspectRatiosForLayouts : [Float] = [
-        3.0, // 2 x 6
+        3.0, // 2x6
         4.0/3, // 3x4
         1.0/3, // 6x2
-        3.0/4 // 4 x 3 
+        3.0/4 // 4x3
     ]
     
     override func layoutSubviews() {

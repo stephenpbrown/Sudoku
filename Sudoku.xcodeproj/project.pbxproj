@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC3E4BCF1E64A7C1001ADC1F /* hard.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC3E4BCE1E64A7C1001ADC1F /* hard.plist */; };
+		AC3E4BD11E64A7C6001ADC1F /* simple.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC3E4BD01E64A7C6001ADC1F /* simple.plist */; };
 		AC407EA81E60E2E300582CEE /* SudokuPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC407EA71E60E2E300582CEE /* SudokuPuzzle.swift */; };
 		AC90B9B21E4A395B00FCE8F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90B9B11E4A395B00FCE8F8 /* AppDelegate.swift */; };
 		AC90B9B41E4A395B00FCE8F8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC90B9B31E4A395B00FCE8F8 /* ViewController.swift */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AC3E4BCE1E64A7C1001ADC1F /* hard.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = hard.plist; sourceTree = "<group>"; };
+		AC3E4BD01E64A7C6001ADC1F /* simple.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = simple.plist; sourceTree = "<group>"; };
 		AC407EA71E60E2E300582CEE /* SudokuPuzzle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SudokuPuzzle.swift; sourceTree = "<group>"; };
 		AC90B9AE1E4A395B00FCE8F8 /* Sudoku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sudoku.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC90B9B11E4A395B00FCE8F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +70,8 @@
 				AC90B9B81E4A395B00FCE8F8 /* Assets.xcassets */,
 				AC90B9BA1E4A395B00FCE8F8 /* LaunchScreen.storyboard */,
 				AC90B9BD1E4A395B00FCE8F8 /* Info.plist */,
+				AC3E4BCE1E64A7C1001ADC1F /* hard.plist */,
+				AC3E4BD01E64A7C6001ADC1F /* simple.plist */,
 			);
 			path = Sudoku;
 			sourceTree = "<group>";
@@ -131,7 +137,9 @@
 			files = (
 				AC90B9BC1E4A395B00FCE8F8 /* LaunchScreen.storyboard in Resources */,
 				AC90B9B91E4A395B00FCE8F8 /* Assets.xcassets in Resources */,
+				AC3E4BD11E64A7C6001ADC1F /* simple.plist in Resources */,
 				AC90B9B71E4A395B00FCE8F8 /* Main.storyboard in Resources */,
+				AC3E4BCF1E64A7C1001ADC1F /* hard.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

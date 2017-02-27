@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         self.sudoku = SudokuPuzzle()
+        self.sudoku!.loadPuzzle(puzzleString: "simple")
         
         return true
     }

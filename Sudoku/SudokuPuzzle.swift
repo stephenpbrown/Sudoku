@@ -10,24 +10,54 @@ import Foundation
 
 class SudokuPuzzle {
     
+    var puzzle : [[Int]] = []
+    
     // Creates empty puzzle
     init() {
         NSLog("init in SudokuPuzzle")
+        
+        // Initializes puzzle
+        self.puzzle = Array(repeating: Array(repeating: 0, count: 9), count: 9)
     }
     
-    // Write to plist compatible array (used for data persistence)
+    func getPuzzles(name : String) -> [String] {
+        let path = Bundle.main.path(forResource: name, ofType: "plist")
+        let array = NSArray(contentsOfFile: path!)
+        return array as! [String]
+    }
+    
+    // Read from plist compatible array (used for data persistence)
     func savedState() -> NSArray {
         return [0]
     }
     
-    // Read from plist compatible array (used for data persistence)
+    // Set to plist compatible array (used for data persistence)
     func setState(puzzleString : String) {
         
     }
     
-    // Load new game encoded with given string (see Section 4.1
+    // Load new game encoded with given string (see Section 4.1)
     func loadPuzzle(puzzleString: String) {
+        var simplePuzzles = getPuzzles(name: puzzleString)
+        //var hardPuzzles = getPuzzles(name: puzzleString)
         
+        let randomIndex = Int(arc4random_uniform(UInt32(simplePuzzles.count)))
+        
+        //NSLog("\(simplePuzzles[randomIndex])")
+        
+        let characters = simplePuzzles[randomIndex].characters.map { String($0) }
+        
+        var count = 0
+        for r in 0 ..< 9 {
+            for c in 0 ..< 9 {
+                //NSLog("row = \(r), col = \(c), number = (\(characters[count])")
+                
+                if characters[count] != "." {
+                    puzzle[r][c] = Int(characters[count])!
+                }
+                count += 1
+            }
+        }
     }
     
     // Fetch the number stored in the cell at the specified row and column; zero indicates an empty cell or the cell holds penciled values
