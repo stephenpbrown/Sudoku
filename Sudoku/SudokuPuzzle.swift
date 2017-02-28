@@ -55,7 +55,7 @@ class SudokuPuzzle {
         // Parse the string into an array of characters: stackoverflow.com/questions/25921204/convert-swift-string-to-array
         let characters = puzzles[randomIndex].characters.map { String($0) }
         
-        NSLog("\(characters)")
+        // NSLog("\(characters)")
         
         var count = 0
         for r in 0 ..< 9 {
@@ -120,7 +120,7 @@ class SudokuPuzzle {
     }
     
     // Are there any penciled in values at the given cell? (assumes number = 0)
-    func anyPencilSetAtRow(row: Int, column: Int) -> Bool {
+    func anyPencilSetAtCell(row: Int, column: Int) -> Bool {
         
         for i in 0 ..< 10 {
             if puzzle[row][column].pencils[i] == true {
@@ -132,7 +132,7 @@ class SudokuPuzzle {
     }
     
     // Number of penciled in values at cell
-    func numberOfPencilsSetAtRow(row: Int, column: Int) -> Int {
+    func numberOfPencilsSetAtCell(row: Int, column: Int) -> Int {
         var count = 0
         
         for i in 0 ..< 10 {

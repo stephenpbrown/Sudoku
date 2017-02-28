@@ -155,7 +155,7 @@
                                         </variation>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="fDc-WH-gie" firstAttribute="centerY" secondItem="MRd-zl-Hd9" secondAttribute="centerY" id="3tG-xB-936"/>
                                     <constraint firstAttribute="trailing" secondItem="fDc-WH-gie" secondAttribute="trailing" priority="750" id="ACG-V3-TFe"/>

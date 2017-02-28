@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var pencilEnabled : Bool = false  // controller property
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -25,6 +27,13 @@ class ViewController: UIViewController {
         let tag = sender.tag
         
         NSLog("number selected: \(tag)")
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let puzzle = appDelegate.sudoku
+        
+        if pencilEnabled {
+            //puzzle?.setPencil(n: tag, row: puzzle, column: <#T##Int#>)
+        }
     }
     
     @IBAction func deleteButton(_ sender: UIButton) {
@@ -33,6 +42,9 @@ class ViewController: UIViewController {
     
     @IBAction func pencilButton(_ sender: UIButton) {
         NSLog("pencil")
+        
+        pencilEnabled = !pencilEnabled   // toggle
+        sender.isSelected = pencilEnabled
     }
     
     
