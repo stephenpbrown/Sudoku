@@ -10,14 +10,21 @@ import Foundation
 
 class SudokuPuzzle {
     
-    var puzzle : [[Int]] = []
+    struct cell {
+        var pencils : [Bool] = Array(repeating: false, count: 10)
+        var number : Int = 0
+        var fixed : Bool = false
+        var solved : Bool = false
+    }
+    
+    var puzzle : [[cell]] = []
     
     // Creates empty puzzle
     init() {
         NSLog("init in SudokuPuzzle")
         
         // Initializes puzzle
-        self.puzzle = Array(repeating: Array(repeating: 0, count: 9), count: 9)
+        self.puzzle = Array(repeating: Array(repeating: cell(), count: 9), count: 9)
     }
     
     func getPuzzles(name : String) -> [String] {
@@ -38,22 +45,27 @@ class SudokuPuzzle {
     
     // Load new game encoded with given string (see Section 4.1)
     func loadPuzzle(puzzleString: String) {
-        var simplePuzzles = getPuzzles(name: puzzleString)
+        let puzzles = getPuzzles(name: puzzleString)
         //var hardPuzzles = getPuzzles(name: puzzleString)
         
-        let randomIndex = Int(arc4random_uniform(UInt32(simplePuzzles.count)))
+        let randomIndex = Int(arc4random_uniform(UInt32(puzzles.count)))
         
         //NSLog("\(simplePuzzles[randomIndex])")
         
-        let characters = simplePuzzles[randomIndex].characters.map { String($0) }
+        // Parse the string into an array of characters: stackoverflow.com/questions/25921204/convert-swift-string-to-array
+        let characters = puzzles[randomIndex].characters.map { String($0) }
+        
+        NSLog("\(characters)")
         
         var count = 0
         for r in 0 ..< 9 {
             for c in 0 ..< 9 {
-                //NSLog("row = \(r), col = \(c), number = (\(characters[count])")
+                //NSLog("row = \(r), col = \(c), number = \(characters[count])")
                 
                 if characters[count] != "." {
-                    puzzle[r][c] = Int(characters[count])!
+                    puzzle[r][c].number = Int(characters[count])!
+                    puzzle[r][c].fixed = true
+                    puzzle[r][c].solved = true
                 }
                 count += 1
             }
@@ -62,51 +74,93 @@ class SudokuPuzzle {
     
     // Fetch the number stored in the cell at the specified row and column; zero indicates an empty cell or the cell holds penciled values
     func numberAtRow(row: Int, column: Int) -> Int {
-        return 0
+        return puzzle[row][column].number
     }
     
     // Set the number at the specified cell; assumes cell does not contain a fixed number
     func setNumber(number: Int, row: Int, column: Int) {
-        
+        puzzle[row][column].number = number
     }
     
     // Determines if cell contains a fixed number
     func numberIsFixedAtRow(row: Int, column: Int) -> Bool {
-        return false
+        return puzzle[row][column].fixed
     }
 
     // Does the number conflict with any other number in the same row, column, or 3x3 square?
-    func isConflictingEntryAtRow(row: Int, column: Int) -> Bool {
+    func isConflictingEntryAtRow(number: Int, row: Int, column: Int) -> Bool {
+        
+        // Check the column for a conflicting number
+        for r in 0 ..< 9 {
+            if row != r && puzzle[r][column].number == number {
+                return true
+            }
+        }
+        
+        // Check the row for a confliction number
+        for c in 0 ..< 9 {
+            if column != c && puzzle[row][c].number == number {
+                return true
+            }
+        }
+        
+        let beginColumn = (column - (column % 3))
+        let beginRow = (row - (row % 3))
+        
+        // Check the 3x3 that contains the cell
+        for r in beginRow ..< beginRow + 3 {
+            for c in beginColumn ..< beginColumn + 3 {
+                if (column != c && row != r) && puzzle[r][c].number == number {
+                    return true
+                }
+            }
+        }
+        
         return false
     }
     
     // Are there any penciled in values at the given cell? (assumes number = 0)
     func anyPencilSetAtRow(row: Int, column: Int) -> Bool {
+        
+        for i in 0 ..< 10 {
+            if puzzle[row][column].pencils[i] == true {
+                return true
+            }
+        }
+        
         return false
     }
     
     // Number of penciled in values at cell
     func numberOfPencilsSetAtRow(row: Int, column: Int) -> Int {
-        return 0
+        var count = 0
+        
+        for i in 0 ..< 10 {
+            if puzzle[row][column].pencils[i] == true {
+                count += 1
+            }
+        }
+        
+        return count
     }
 
     // Is the value n penciled in?
     func isSetPencil(n: Int, row: Int, column: Int) -> Bool {
-        return false
+        return puzzle[row][column].pencils[n]
     }
     
     // Pencil the value n in
     func setPencil(n: Int, row: Int, column: Int) {
-        
+        puzzle[row][column].pencils[n] = true
     }
     
     // Clear the pencil value n
     func clearPencil(n: Int, row: Int, column: Int) {
-        
+        puzzle[row][column].pencils[n] = false
     }
     
     // Clear all penciled in values
     func clearAllPencils(row: Int, column: Int) {
-        
+        puzzle[row][column].pencils = Array(repeating: false, count: 10)
     }
 }

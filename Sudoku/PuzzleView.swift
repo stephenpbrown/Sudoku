@@ -114,8 +114,8 @@ class PuzzleView: UIView {
         
         for row in 0 ..< 9 {
             for col in 0 ..< 9 {
-                if puzzle!.puzzle[row][col] != 0 {
-                    let text = "\(puzzle!.puzzle[row][col])" as NSString
+                if puzzle!.puzzle[row][col].number != 0 {
+                    let text = "\(puzzle!.puzzle[row][col].number)" as NSString
                     let textSize = text.size(attributes: fixedAttributes)
                     let x = gridOrigin.x + CGFloat(col)*d + 0.5*(d - textSize.width)
                     let y = gridOrigin.y + CGFloat(row)*d + 0.5*(d - textSize.height)
