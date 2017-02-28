@@ -12,6 +12,8 @@ class ViewController: UIViewController {
 
     var pencilEnabled : Bool = false  // controller property
     
+    @IBOutlet weak var puzzleView: PuzzleView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -32,7 +34,7 @@ class ViewController: UIViewController {
         let puzzle = appDelegate.sudoku
         
         if pencilEnabled {
-            //puzzle?.setPencil(n: tag, row: puzzle, column: <#T##Int#>)
+            puzzle?.setPencil(n: Int(tag), row: puzzleView.selected.row, column: puzzleView.selected.column)
         }
     }
     
