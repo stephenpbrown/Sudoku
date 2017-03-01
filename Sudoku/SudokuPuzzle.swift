@@ -26,6 +26,8 @@ class SudokuPuzzle {
         self.puzzle = Array(repeating: Array(repeating: cell(), count: 9), count: 9)
     }
     
+    
+    
     // Read from plist compatible array (used for data persistence)
     func savedState() -> NSArray {
         return [0]

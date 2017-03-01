@@ -137,6 +137,7 @@ class PuzzleView: UIView {
                     text.draw(in: textRect, withAttributes: fixedAttributes)
                 }
                 
+                // Draw all the penciled values within the cell
                 else if puzzle!.anyPencilSetAtCell(row: row, column: col) {
                     var n = 1
                     

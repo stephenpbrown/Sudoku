@@ -45,8 +45,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let randomPuzzle = self.randomPuzzle(puzzles: simplePuzzles)
         self.sudoku!.loadPuzzle(puzzleString: randomPuzzle)
         
-        
-        
         return true
     }
 

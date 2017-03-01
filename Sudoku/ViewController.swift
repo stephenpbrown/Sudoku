@@ -67,7 +67,7 @@ class ViewController: UIViewController {
         }
         else if pencilEnabled && (puzzle?.anyPencilSetAtCell(row: row, column: column))! {
             let alertController = UIAlertController(
-                title: "Deleting all penciled in numbers!",
+                title: "Deleting all penciled values in cell!",
                 message: "Are you sure?",
                 preferredStyle: .alert
             )
@@ -99,28 +99,29 @@ class ViewController: UIViewController {
     @IBAction func menuButton(_ sender: UIButton) {
         NSLog("menu")
         
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let puzzle = appDelegate.sudoku
-//        
-//        let alertController = UIAlertController(
-//            title: "Main Menu",
-//            message: nil,
-//            preferredStyle: .actionSheet)
-//        
-//        alertController.addAction(UIAlertAction(
-//            title: "Cancel",
-//            style: .cancel,
-//            handler: nil))
-//        alertController.addAction(UIAlertAction(
-//            title: "New Easy Game",
-//            style: .default,
-//            handler: { (UIAlertAction) -> Void in
-//                let puzzleStr = randomPuzzle(appDelegate.simplePuzzles)
-//                puzzle.loadPuzzle(puzzleStr)
-//                self.selectFirstAvailableCell()
-//                self.puzzleView.setNeedsDisplay()}))
-//        
-//         ... add other actions ...
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let puzzle = appDelegate.sudoku
+        
+        let alertController = UIAlertController(
+            title: "Main Menu",
+            message: nil,
+            preferredStyle: .actionSheet)
+        
+        alertController.addAction(UIAlertAction(
+            title: "Cancel",
+            style: .cancel,
+            handler: nil))
+        alertController.addAction(UIAlertAction(
+            title: "New Easy Game",
+            style: .default,
+            handler: { (UIAlertAction) -> Void in
+                appDelegate.sudoku = SudokuPuzzle()               
+                let puzzleStr = appDelegate.randomPuzzle(puzzles: appDelegate.simplePuzzles)
+                appDelegate.sudoku?.loadPuzzle(puzzleString: puzzleStr)
+                self.puzzleView.setNeedsDisplay()
+        }))
+        
+         // ... add other actions ...
 //        if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad {
 //            let popoverPresenter = alertController.popoverPresentationController
 //            let menuButtonTag = 12
@@ -128,7 +129,7 @@ class ViewController: UIViewController {
 //            popoverPresenter?.sourceView = menuButton
 //            popoverPresenter?.sourceRect = (menuButton?.bounds)!
 //        }
-//        self.present(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
