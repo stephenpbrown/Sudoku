@@ -60,6 +60,15 @@ class PuzzleView: UIView {
             
             let squareSize = boardRect.width/9
             
+            // Highlights the selected cell
+            if selected.row >= 0 && selected.column >= 0 {
+                UIColor.lightGray.setFill()
+                let x = boardRect.origin.x + CGFloat(selected.column)*squareSize
+                let y = boardRect.origin.y + CGFloat(selected.row)*squareSize
+                
+                context.fill(CGRect(x: x, y: y, width: squareSize, height: squareSize))
+            }
+            
             // Draw the horizontal lines
             for r in 0 ... 9 {
                 if r % 3 == 0 {
@@ -85,19 +94,13 @@ class PuzzleView: UIView {
                                       y: boardRect.origin.y,
                                       width: 0, height: boardRect.height))
             }
-            
-            // Highlights the selected cell
-            if selected.row >= 0 && selected.column >= 0 {
-                UIColor.lightGray.setFill()
-                let x = boardRect.origin.x + CGFloat(selected.column)*squareSize + 0.5
-                let y = boardRect.origin.y + CGFloat(selected.row)*squareSize + 0.5
-                
-                context.fill(CGRect(x: x, y: y, width: squareSize-1, height: squareSize-1))
-            }
         }
-            
+        
         let boldFont = UIFont(name: "Helvetica-Bold", size: 30)
-        let fixedAttributes = [NSFontAttributeName : boldFont!, NSForegroundColorAttributeName : UIColor.black]
+        var fixedAttributes = [NSFontAttributeName : boldFont!, NSForegroundColorAttributeName : UIColor.black]
+        
+        let pencilFont = UIFont(name: "Helvetica-Bold", size: 10)
+        let pencilAttributes = [NSFontAttributeName : pencilFont!, NSForegroundColorAttributeName : UIColor.black]
         
         // Temp number, row, and col
         //let number = 3 // TEMP YO
@@ -107,20 +110,54 @@ class PuzzleView: UIView {
         let gridSize = boardRect.width
         let delta = gridSize/3
         let d = delta/3
+        let s = d/3
+        var s2 : CGFloat = 0
         let gridOrigin = boardRect.origin
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let puzzle = appDelegate.sudoku // fetch model data
         
+        // Set the numbers in the cells
         for row in 0 ..< 9 {
             for col in 0 ..< 9 {
                 if puzzle!.puzzle[row][col].number != 0 {
+                    
+                    // Check to see if the number is fixed. Print red if it is
+                    if puzzle!.numberIsFixedAtRow(row: row, column: col) {
+                        fixedAttributes = [NSFontAttributeName : boldFont!, NSForegroundColorAttributeName : UIColor.darkGray]
+                    }
+                    else {
+                        fixedAttributes = [NSFontAttributeName : boldFont!, NSForegroundColorAttributeName : UIColor.black]
+                    }
+                    
                     let text = "\(puzzle!.puzzle[row][col].number)" as NSString
                     let textSize = text.size(attributes: fixedAttributes)
                     let x = gridOrigin.x + CGFloat(col)*d + 0.5*(d - textSize.width)
                     let y = gridOrigin.y + CGFloat(row)*d + 0.5*(d - textSize.height)
                     let textRect = CGRect(x: x, y: y, width: textSize.width, height: textSize.height)
                     text.draw(in: textRect, withAttributes: fixedAttributes)
+                }
+                
+                else if puzzle!.anyPencilSetAtCell(row: row, column: col) {
+                    for n in 1 ..< 10 {
+                        if puzzle!.isSetPencil(n: n, row: row, column: col) {
+                            
+                            // CONTINUE HERE
+                            if n == 1 {
+                                s2 = s
+                            }
+                            else {
+                                s2 = s*CGFloat(n)*2
+                            }
+                                
+                            let text = "\(n)" as NSString
+                            let textSize = text.size(attributes: pencilAttributes)
+                            let x = gridOrigin.x + CGFloat(col)*d + 0.5*(s2 - textSize.width)
+                            let y = gridOrigin.y + CGFloat(row)*d + 0.5*(s - textSize.height)
+                            let textRect = CGRect(x: x, y: y, width: textSize.width, height: textSize.height)
+                            text.draw(in: textRect, withAttributes: pencilAttributes)
+                        }
+                    }
                 }
             }
         }

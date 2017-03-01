@@ -217,7 +217,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="puzzleView" destination="44Z-IT-ZSx" id="RRd-Cv-RtV"/>
+                        <outlet property="puzzleView" destination="fDc-WH-gie" id="AgZ-Ut-f9e"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

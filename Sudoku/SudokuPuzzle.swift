@@ -14,7 +14,6 @@ class SudokuPuzzle {
         var pencils : [Bool] = Array(repeating: false, count: 10)
         var number : Int = 0
         var fixed : Bool = false
-        var solved : Bool = false
     }
     
     var puzzle : [[cell]] = []
@@ -25,12 +24,6 @@ class SudokuPuzzle {
         
         // Initializes puzzle
         self.puzzle = Array(repeating: Array(repeating: cell(), count: 9), count: 9)
-    }
-    
-    func getPuzzles(name : String) -> [String] {
-        let path = Bundle.main.path(forResource: name, ofType: "plist")
-        let array = NSArray(contentsOfFile: path!)
-        return array as! [String]
     }
     
     // Read from plist compatible array (used for data persistence)
@@ -45,15 +38,9 @@ class SudokuPuzzle {
     
     // Load new game encoded with given string (see Section 4.1)
     func loadPuzzle(puzzleString: String) {
-        let puzzles = getPuzzles(name: puzzleString)
-        //var hardPuzzles = getPuzzles(name: puzzleString)
-        
-        let randomIndex = Int(arc4random_uniform(UInt32(puzzles.count)))
-        
-        //NSLog("\(simplePuzzles[randomIndex])")
         
         // Parse the string into an array of characters: stackoverflow.com/questions/25921204/convert-swift-string-to-array
-        let characters = puzzles[randomIndex].characters.map { String($0) }
+        let characters = puzzleString.characters.map { String($0) }
         
         // NSLog("\(characters)")
         
@@ -65,7 +52,6 @@ class SudokuPuzzle {
                 if characters[count] != "." {
                     puzzle[r][c].number = Int(characters[count])!
                     puzzle[r][c].fixed = true
-                    puzzle[r][c].solved = true
                 }
                 count += 1
             }
@@ -151,6 +137,7 @@ class SudokuPuzzle {
     
     // Pencil the value n in
     func setPencil(n: Int, row: Int, column: Int) {
+        NSLog("n = \(n), row = \(row), column = \(column)")
         puzzle[row][column].pencils[n] = true
     }
     

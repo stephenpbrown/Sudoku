@@ -13,15 +13,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var sudoku : SudokuPuzzle?
-    //var puzzleView : PuzzleView?
+    
+    func getPuzzles(name : String) -> [String] {
+        let path = Bundle.main.path(forResource: name, ofType: "plist")
+        let array = NSArray(contentsOfFile: path!)
+        return array as! [String]
+    }
+    
+    lazy var simplePuzzles = { () -> [String] in
+        let path = Bundle.main.path(forResource: "simple", ofType: "plist")
+        let array = NSArray(contentsOfFile: path!)
+        return array as! [String]
+    }()
+    
+    lazy var hardPuzzles = { () -> [String] in
+        let path = Bundle.main.path(forResource: "hard", ofType: "plist")
+        let array = NSArray(contentsOfFile: path!)
+        return array as! [String]
+    }()
+    
+    func randomPuzzle(puzzles: [String]) -> String {
+        let randomIndex = Int(arc4random_uniform(UInt32(simplePuzzles.count)))
+        return puzzles[randomIndex]
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         self.sudoku = SudokuPuzzle()
-        self.sudoku!.loadPuzzle(puzzleString: "simple")
         
-        //self.puzzleView = PuzzleView()
+        let randomPuzzle = self.randomPuzzle(puzzles: simplePuzzles)
+        self.sudoku!.loadPuzzle(puzzleString: randomPuzzle)
+        
+        
         
         return true
     }

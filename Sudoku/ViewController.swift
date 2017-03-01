@@ -33,13 +33,33 @@ class ViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let puzzle = appDelegate.sudoku
         
-        if pencilEnabled {
-            puzzle?.setPencil(n: Int(tag), row: puzzleView.selected.row, column: puzzleView.selected.column)
+        let row = puzzleView.selected.row
+        let column = puzzleView.selected.column
+        
+        NSLog("row = \(row), column = \(column)")
+        
+        if pencilEnabled && !(puzzle?.isSetPencil(n: tag, row: row, column: column))! && puzzle?.numberAtRow(row: row, column: column) == 0 {
+            puzzle?.setPencil(n: tag, row: row, column: column)
+            puzzleView.setNeedsDisplay()
+        }
+        else {
+            puzzle?.setNumber(number: tag, row: row, column: column)
+            puzzleView.setNeedsDisplay()
         }
     }
     
     @IBAction func deleteButton(_ sender: UIButton) {
-        NSLog("delete")
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let puzzle = appDelegate.sudoku
+        
+        let row = puzzleView.selected.row
+        let column = puzzleView.selected.column
+
+        
+        if (puzzle?.numberAtRow(row: row, column: column))! > 0 {
+            puzzle?.setNumber(number: 0, row: row, column: column)
+            puzzleView.setNeedsDisplay()
+        }
     }
     
     @IBAction func pencilButton(_ sender: UIButton) {
