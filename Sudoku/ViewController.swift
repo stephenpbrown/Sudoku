@@ -40,15 +40,20 @@ class ViewController: UIViewController {
         
         if pencilEnabled && !(puzzle?.isSetPencil(n: tag, row: row, column: column))! && puzzle?.numberAtRow(row: row, column: column) == 0 {
             puzzle?.setPencil(n: tag, row: row, column: column)
-            puzzleView.setNeedsDisplay()
         }
-        else {
+        else if !pencilEnabled && !(puzzle?.anyPencilSetAtCell(row: row, column: column))! {
             puzzle?.setNumber(number: tag, row: row, column: column)
-            puzzleView.setNeedsDisplay()
         }
+        else if pencilEnabled && (puzzle?.isSetPencil(n: tag, row: row, column: column))! {
+            puzzle?.clearPencil(n: tag, row: row, column: column)
+        }
+        
+        puzzleView.setNeedsDisplay()
     }
     
     @IBAction func deleteButton(_ sender: UIButton) {
+        // let tag = sender.tag
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let puzzle = appDelegate.sudoku
         
@@ -59,6 +64,27 @@ class ViewController: UIViewController {
         if (puzzle?.numberAtRow(row: row, column: column))! > 0 {
             puzzle?.setNumber(number: 0, row: row, column: column)
             puzzleView.setNeedsDisplay()
+        }
+        else if pencilEnabled && (puzzle?.anyPencilSetAtCell(row: row, column: column))! {
+            let alertController = UIAlertController(
+                title: "Deleting all penciled in numbers!",
+                message: "Are you sure?",
+                preferredStyle: .alert
+            )
+            alertController.addAction(UIAlertAction(
+                title: "Cancel",
+                style: .cancel,
+                handler: nil)
+            )
+            alertController.addAction(UIAlertAction(
+                title: "Yes",
+                style: .default,
+                handler: { (UIAlertAction) -> Void in
+                    puzzle?.clearAllPencils(row: row, column: column)
+                    self.puzzleView.setNeedsDisplay()
+                })
+            )
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     

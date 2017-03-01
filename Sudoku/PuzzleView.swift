@@ -111,7 +111,6 @@ class PuzzleView: UIView {
         let delta = gridSize/3
         let d = delta/3
         let s = d/3
-        var s2 : CGFloat = 0
         let gridOrigin = boardRect.origin
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -139,24 +138,26 @@ class PuzzleView: UIView {
                 }
                 
                 else if puzzle!.anyPencilSetAtCell(row: row, column: col) {
-                    for n in 1 ..< 10 {
-                        if puzzle!.isSetPencil(n: n, row: row, column: col) {
-                            
-                            // CONTINUE HERE
-                            if n == 1 {
-                                s2 = s
-                            }
-                            else {
-                                s2 = s*CGFloat(n)*2
-                            }
+                    var n = 1
+                    
+                    for r in 0 ..< 3 {
+                        for c in 0 ..< 3 {
+                                    
+                            if (puzzle?.isSetPencil(n: n, row: row, column: col))! {
+                                let text = "\(n)" as NSString
+                                let textSize = text.size(attributes: pencilAttributes)
                                 
-                            let text = "\(n)" as NSString
-                            let textSize = text.size(attributes: pencilAttributes)
-                            let x = gridOrigin.x + CGFloat(col)*d + 0.5*(s2 - textSize.width)
-                            let y = gridOrigin.y + CGFloat(row)*d + 0.5*(s - textSize.height)
-                            let textRect = CGRect(x: x, y: y, width: textSize.width, height: textSize.height)
-                            text.draw(in: textRect, withAttributes: pencilAttributes)
+                                let sr = s*CGFloat(r)*2 + s
+                                let sc = s*CGFloat(c)*2 + s
+                                    
+                                let x = gridOrigin.x + CGFloat(col)*d + 0.5*(sc - textSize.width)
+                                let y = gridOrigin.y + CGFloat(row)*d + 0.5*(sr - textSize.height)
+                                let textRect = CGRect(x: x, y: y, width: textSize.width, height: textSize.height)
+                                text.draw(in: textRect, withAttributes: pencilAttributes)
+                            }
+                            n += 1
                         }
+                        
                     }
                 }
             }
