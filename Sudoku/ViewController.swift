@@ -305,32 +305,6 @@ class ViewController: UIViewController {
                 self.present(secondaryAlertController, animated: true, completion: nil)
         }))
         
-        // Clears all cells, including any entered values or penciled values
-        alertController.addAction(UIAlertAction(
-            title: "Clear All Entered and Penciled Values",
-            style: .default,
-            handler: { (UIAlertAction) -> Void in
-                let secondaryAlertController = UIAlertController(
-                    title: "Clearing all entered and penciled values!",
-                    message: "Are you sure?",
-                    preferredStyle: .alert
-                )
-                secondaryAlertController.addAction(UIKit.UIAlertAction(
-                    title: "Cancel",
-                    style: .cancel,
-                    handler: nil
-                ))
-                secondaryAlertController.addAction(UIKit.UIAlertAction(
-                    title: "Yes",
-                    style: .default,
-                    handler: { (UIAlertAction) -> Void in
-                        puzzle?.clearAllCells()
-                        puzzle?.clearAllPencilsForEachCell()
-                        self.puzzleView.setNeedsDisplay()
-                }))
-                self.present(secondaryAlertController, animated: true, completion: nil)
-        }))
-        
          // ... add other actions ...
         if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad {
             let popoverPresenter = alertController.popoverPresentationController

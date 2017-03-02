@@ -96,7 +96,7 @@ class PuzzleView: UIView {
         let boldFont = UIFont(name: "Helvetica-Bold", size: 30)
         var fixedAttributes = [NSFontAttributeName : boldFont!, NSForegroundColorAttributeName : UIColor.black]
         
-        let pencilFont = UIFont(name: "Helvetica-Bold", size: 10)
+        let pencilFont = UIFont(name: "Helvetica-Bold", size: 12)
         let pencilAttributes = [NSFontAttributeName : pencilFont!, NSForegroundColorAttributeName : UIColor.black]
         
         // Temp number, row, and col

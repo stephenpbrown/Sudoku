@@ -8,6 +8,11 @@
 
 import UIKit
 
+func sandboxArchivePath() -> String {
+    let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
+    return dir.appendingPathComponent("savedPuzzle.plist")
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -42,8 +47,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.sudoku = SudokuPuzzle()
         
-        let randomPuzzle = self.randomPuzzle(puzzles: simplePuzzles)
-        self.sudoku!.loadPuzzle(puzzleString: randomPuzzle)
+        let archiveName = sandboxArchivePath()
+        if FileManager.default.fileExists(atPath: archiveName) { // If saved file exists, load it, otherwise load random puzzle
+            NSLog("Loading puzzle")
+            let savedPuzzle = NSArray(contentsOfFile: archiveName) // Grab saved state and cast it to a double int array
+            sudoku!.puzzle = savedPuzzle as! [[SudokuPuzzle.cell]]
+        }
+        else {
+            NSLog("Loading new puzzle")
+            let randomPuzzle = self.randomPuzzle(puzzles: simplePuzzles)
+            self.sudoku!.loadPuzzle(puzzleString: randomPuzzle)
+        }
         
         return true
     }
@@ -56,6 +70,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        NSLog("Entered background")
+        let archiveName = sandboxArchivePath()
+        let savedPuzzle : NSArray = sudoku!.puzzle as NSArray // Saved the puzzle as an NS array
+        savedPuzzle.write(toFile : archiveName, atomically : true) // Write to the archive
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

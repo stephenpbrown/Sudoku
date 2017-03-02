@@ -8,11 +8,6 @@
 
 import Foundation
 
-func sandboxArchivePath() -> String {
-    let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
-    return dir.appendingPathComponent("numbers.plist")
-}
-
 class SudokuPuzzle {
     
     struct cell {
@@ -33,17 +28,22 @@ class SudokuPuzzle {
     
     
     
-    // Read from plist compatible array (used for data persistence)
-    func savedState() -> NSArray {
-        return [0]
-    }
-    
-    // Set to plist compatible array (used for data persistence)
-    func setState(puzzleString : String) {
-        let archiveName = sandboxArchivePath()
-        let savedState : NSArray = board!.state as NSArray // Saved the state as an NS array
-        savedState.write(toFile : archiveName, atomically : true) // Write to the archive
-    }
+//    // Read from plist compatible array (used for data persistence)
+//    func savedState() -> NSArray {
+//        let archiveName = sandboxArchivePath()
+//        if FileManager.default.fileExists(atPath: archiveName) { // If saved file exists, load it, otherwise shuffle
+//            let savedState = NSArray(contentsOfFile: archiveName) // Grab saved state and cast it to a double int array
+//            return savedState! as NSArray
+//        }
+//        return [0]
+//    }
+//    
+//    // Set to plist compatible array (used for data persistence)
+//    func setState() {
+//        let archiveName = sandboxArchivePath()
+//        let savedState : NSArray = puzzle as NSArray // Saved the state as an NS array
+//        savedState.write(toFile : archiveName, atomically : true) // Write to the archive
+//    }
     
     // Load new game encoded with given string (see Section 4.1)
     func loadPuzzle(puzzleString: String) {
