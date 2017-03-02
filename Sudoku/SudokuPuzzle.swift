@@ -8,13 +8,17 @@
 
 import Foundation
 
+func sandboxArchivePath() -> String {
+    let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
+    return dir.appendingPathComponent("numbers.plist")
+}
+
 class SudokuPuzzle {
     
     struct cell {
         var pencils : [Bool] = Array(repeating: false, count: 10)
         var number : Int = 0
         var fixed : Bool = false
-        var conflictingNumber : Bool = false
     }
     
     var puzzle : [[cell]] = []
@@ -36,7 +40,9 @@ class SudokuPuzzle {
     
     // Set to plist compatible array (used for data persistence)
     func setState(puzzleString : String) {
-        
+        let archiveName = sandboxArchivePath()
+        let savedState : NSArray = board!.state as NSArray // Saved the state as an NS array
+        savedState.write(toFile : archiveName, atomically : true) // Write to the archive
     }
     
     // Load new game encoded with given string (see Section 4.1)
@@ -69,10 +75,6 @@ class SudokuPuzzle {
     // Set the number at the specified cell; assumes cell does not contain a fixed number
     func setNumber(number: Int, row: Int, column: Int) {
         puzzle[row][column].number = number
-        
-        if isConflictingEntryAtCell(number: number, row: row, column: column) {
-            puzzle[row][column].conflictingNumber = true
-        }
     }
     
     // Determines if cell contains a fixed number
@@ -112,11 +114,23 @@ class SudokuPuzzle {
         return false
     }
     
+    // Check if there are any conflicting cells left within the puzzle
+    func anyConflictingCells() -> Bool {
+        for r in 0 ..< 9 {
+            for c in 0 ..< 9 {
+                if isConflictingEntryAtCell(number: puzzle[r][c].number, row: r, column: c) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
     // Clear any conflicting cells
     func clearAllConflictingCells() {
         for r in 0 ..< 9 {
             for c in 0 ..< 9 {
-                if puzzle[r][c].conflictingNumber {
+                if isConflictingEntryAtCell(number: puzzle[r][c].number, row: r, column: c) {
                     puzzle[r][c].number = 0
                 }
             }
