@@ -14,6 +14,7 @@ class SudokuPuzzle {
         var pencils : [Bool] = Array(repeating: false, count: 10)
         var number : Int = 0
         var fixed : Bool = false
+        var conflictingNumber : Bool = false
     }
     
     var puzzle : [[cell]] = []
@@ -68,6 +69,10 @@ class SudokuPuzzle {
     // Set the number at the specified cell; assumes cell does not contain a fixed number
     func setNumber(number: Int, row: Int, column: Int) {
         puzzle[row][column].number = number
+        
+        if isConflictingEntryAtCell(number: number, row: row, column: column) {
+            puzzle[row][column].conflictingNumber = true
+        }
     }
     
     // Determines if cell contains a fixed number
@@ -76,7 +81,7 @@ class SudokuPuzzle {
     }
 
     // Does the number conflict with any other number in the same row, column, or 3x3 square?
-    func isConflictingEntryAtRow(number: Int, row: Int, column: Int) -> Bool {
+    func isConflictingEntryAtCell(number: Int, row: Int, column: Int) -> Bool {
         
         // Check the column for a conflicting number
         for r in 0 ..< 9 {
@@ -105,6 +110,28 @@ class SudokuPuzzle {
         }
         
         return false
+    }
+    
+    // Clear any conflicting cells
+    func clearAllConflictingCells() {
+        for r in 0 ..< 9 {
+            for c in 0 ..< 9 {
+                if puzzle[r][c].conflictingNumber {
+                    puzzle[r][c].number = 0
+                }
+            }
+        }
+    }
+    
+    // Clear all cells that don't have a fixed number in them
+    func clearAllCells() {
+        for r in 0 ..< 9 {
+            for c in 0 ..< 9 {
+                if !puzzle[r][c].fixed {
+                    puzzle[r][c].number = 0
+                }
+            }
+        }
     }
     
     // Are there any penciled in values at the given cell? (assumes number = 0)
@@ -151,5 +178,15 @@ class SudokuPuzzle {
     // Clear all penciled in values
     func clearAllPencils(row: Int, column: Int) {
         puzzle[row][column].pencils = Array(repeating: false, count: 10)
+    }
+    
+    // Clear all the pencils in every cell
+    func clearAllPencilsForEachCell() {
+        for r in 0 ..< 9 {
+            for c in 0 ..< 9 {
+                clearAllPencils(row: r, column: c)
+            }
+        }
+
     }
 }

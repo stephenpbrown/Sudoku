@@ -11,6 +11,7 @@ import UIKit
 class PuzzleView: UIView {
     
     var selected = (row: -1, column: -1)
+    var showConflictingCells : Bool = false
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder : aDecoder)
@@ -124,6 +125,9 @@ class PuzzleView: UIView {
                     // Check to see if the number is fixed. Print red if it is
                     if puzzle!.numberIsFixedAtRow(row: row, column: col) {
                         fixedAttributes = [NSFontAttributeName : boldFont!, NSForegroundColorAttributeName : UIColor.darkGray]
+                    }
+                    else if showConflictingCells && puzzle!.puzzle[row][col].conflictingNumber {
+                        fixedAttributes = [NSFontAttributeName : boldFont!, NSForegroundColorAttributeName : UIColor.red]
                     }
                     else {
                         fixedAttributes = [NSFontAttributeName : boldFont!, NSForegroundColorAttributeName : UIColor.black]

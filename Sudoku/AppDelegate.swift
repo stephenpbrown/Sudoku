@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
     
     func randomPuzzle(puzzles: [String]) -> String {
-        let randomIndex = Int(arc4random_uniform(UInt32(simplePuzzles.count)))
+        let randomIndex = Int(arc4random_uniform(UInt32(puzzles.count)))
         return puzzles[randomIndex]
     }
 
