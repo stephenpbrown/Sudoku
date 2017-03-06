@@ -10,7 +10,7 @@ import UIKit
 
 func sandboxArchivePath() -> String {
     let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
-    return dir.appendingPathComponent("savedPuzzle.plist")
+    return dir.appendingPathComponent("savedSudokuPuzzle.plist")
 }
 
 @UIApplicationMain
@@ -25,17 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return array as! [String]
     }
     
-    lazy var simplePuzzles = { () -> [String] in
-        let path = Bundle.main.path(forResource: "simple", ofType: "plist")
-        let array = NSArray(contentsOfFile: path!)
-        return array as! [String]
-    }()
+    lazy var simplePuzzles : [String] = self.getPuzzles(name: "simple")
     
-    lazy var hardPuzzles = { () -> [String] in
-        let path = Bundle.main.path(forResource: "hard", ofType: "plist")
-        let array = NSArray(contentsOfFile: path!)
-        return array as! [String]
-    }()
+    lazy var hardPuzzles : [String] = self.getPuzzles(name: "hard")
     
     func randomPuzzle(puzzles: [String]) -> String {
         let randomIndex = Int(arc4random_uniform(UInt32(puzzles.count)))
@@ -50,8 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let archiveName = sandboxArchivePath()
         if FileManager.default.fileExists(atPath: archiveName) { // If saved file exists, load it, otherwise load random puzzle
             NSLog("Loading puzzle")
-            let savedPuzzle = NSArray(contentsOfFile: archiveName) // Grab saved state and cast it to a double int array
-            sudoku!.puzzle = savedPuzzle as! [[SudokuPuzzle.cell]]
+            let savedPuzzle = NSArray(contentsOfFile: archiveName) as! [[SudokuPuzzle.cell]]
+            sudoku!.puzzle = savedPuzzle
         }
         else {
             NSLog("Loading new puzzle")
@@ -74,7 +66,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSLog("Entered background")
         let archiveName = sandboxArchivePath()
         let savedPuzzle : NSArray = sudoku!.puzzle as NSArray // Saved the puzzle as an NS array
-        savedPuzzle.write(toFile : archiveName, atomically : true) // Write to the archive
+        NSLog("\(savedPuzzle)")
+        let test = savedPuzzle.write(toFile : archiveName, atomically : true) // Write to the archive
+        NSLog("\(test)")
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

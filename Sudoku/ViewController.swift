@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     var pencilEnabled : Bool = false  // controller property
+    var gameWon : Bool = false // Check whether the game has been won or not
     
     @IBOutlet weak var puzzleView: PuzzleView!
     @IBOutlet weak var buttonsView: ButtonsView!
@@ -25,7 +26,6 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    
     @IBAction func numberSelected(_ sender: UIButton) {
         let tag = sender.tag
         
@@ -39,13 +39,14 @@ class ViewController: UIViewController {
         
         //NSLog("row = \(row), column = \(column)")
         
-        if row >= 0 && column >= 0 {
+        if row >= 0 && column >= 0  && !gameWon {
             
             if pencilEnabled && !(puzzle?.isSetPencil(n: tag, row: row, column: column))! && puzzle?.numberAtRow(row: row, column: column) == 0 {
                 puzzle?.setPencil(n: tag, row: row, column: column)
             }
-            else if !pencilEnabled && !(puzzle?.anyPencilSetAtCell(row: row, column: column))! && (puzzle?.numberAtRow(row: row, column: column))! == 0 {
+            else if !pencilEnabled && (puzzle?.numberAtRow(row: row, column: column))! == 0 {
                 puzzle?.setNumber(number: tag, row: row, column: column)
+                // Maybe clear pencils here?
             }
             else if pencilEnabled && (puzzle?.isSetPencil(n: tag, row: row, column: column))! {
                 puzzle?.clearPencil(n: tag, row: row, column: column)
@@ -71,12 +72,27 @@ class ViewController: UIViewController {
                 NSLog("Should be zero: \(emptyCells)")
                 if !(puzzle?.anyConflictingCells())! {
                     NSLog("Puzzle solved!")
-                    
+                
+                    gameWon = true
                     let alertController = UIAlertController(
                         title: "Great job! You solved the puzzle!",
                         message: "",
                         preferredStyle: .alert
                     )
+                    // Option for a new easy puzzle
+                    alertController.addAction(UIAlertAction(
+                        title: "New Easy Game",
+                        style: .default,
+                        handler: { (UIAlertAction) -> Void in
+                            self.newGame(newGameType: "simple")
+                    }))
+                    // Option for a new hard puzzle
+                    alertController.addAction(UIAlertAction(
+                        title: "New Hard Game",
+                        style: .default,
+                        handler: { (UIAlertAction) -> Void in
+                            self.newGame(newGameType: "hard")
+                    }))
                     alertController.addAction(UIAlertAction(
                         title: "Close",
                         style: .cancel,
@@ -99,7 +115,7 @@ class ViewController: UIViewController {
         let row = puzzleView.selected.row
         let column = puzzleView.selected.column
 
-        if row >= 0 && column >= 0 {
+        if row >= 0 && column >= 0 && !gameWon {
         
             if (puzzle?.numberAtRow(row: row, column: column))! > 0 {
                 puzzle?.setNumber(number: 0, row: row, column: column)
@@ -127,6 +143,25 @@ class ViewController: UIViewController {
                 self.present(alertController, animated: true, completion: nil)
             }
         }
+    }
+    
+    func newGame(newGameType: String) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        appDelegate.sudoku = SudokuPuzzle()
+        var puzzleStr = ""
+        
+        if newGameType == "simple" {
+            puzzleStr = appDelegate.randomPuzzle(puzzles: appDelegate.simplePuzzles)
+        }
+        else if newGameType == "hard" {
+            puzzleStr = appDelegate.randomPuzzle(puzzles: appDelegate.hardPuzzles)
+        }
+        
+        appDelegate.sudoku?.loadPuzzle(puzzleString: puzzleStr)
+        self.puzzleView.selected = (-1, -1)
+        self.gameWon = false
+        self.puzzleView.setNeedsDisplay()
     }
     
     @IBAction func pencilButton(_ sender: UIButton) {
@@ -172,11 +207,7 @@ class ViewController: UIViewController {
                     title: "Yes",
                     style: .default,
                     handler: { (UIAlertAction) -> Void in
-                        appDelegate.sudoku = SudokuPuzzle()
-                        let puzzleStr = appDelegate.randomPuzzle(puzzles: appDelegate.simplePuzzles)
-                        appDelegate.sudoku?.loadPuzzle(puzzleString: puzzleStr)
-                        self.puzzleView.selected = (-1, -1)
-                        self.puzzleView.setNeedsDisplay()
+                        self.newGame(newGameType: "simple")
                 }))
                 self.present(secondaryAlertController, animated: true, completion: nil)
         }))
@@ -200,111 +231,109 @@ class ViewController: UIViewController {
                     title: "Yes",
                     style: .default,
                     handler: { (UIAlertAction) -> Void in
-                        appDelegate.sudoku = SudokuPuzzle()
-                        let puzzleStr = appDelegate.randomPuzzle(puzzles: appDelegate.hardPuzzles)
-                        appDelegate.sudoku?.loadPuzzle(puzzleString: puzzleStr)
-                        self.puzzleView.selected = (-1, -1)
-                        self.puzzleView.setNeedsDisplay()
+                        self.newGame(newGameType: "hard")
                 }))
                 self.present(secondaryAlertController, animated: true, completion: nil)
         }))
         
-        // Toggles between showing and hiding conflicting cells
-        if !self.puzzleView.showConflictingCells {
+        if !gameWon {
+            // Toggles between showing and hiding conflicting cells
+            if !self.puzzleView.showConflictingCells {
+                alertController.addAction(UIAlertAction(
+                    title: "Highlight Conflicting Cells",
+                    style: .default,
+                    handler: { (UIAlertAction) -> Void in
+                        self.puzzleView.showConflictingCells = !self.puzzleView.showConflictingCells
+                        self.puzzleView.setNeedsDisplay()
+                }))
+            }
+            else {
+                alertController.addAction(UIAlertAction(
+                    title: "Stop Highlighting Conflicting Cells",
+                    style: .default,
+                    handler: { (UIAlertAction) -> Void in
+                        self.puzzleView.showConflictingCells = !self.puzzleView.showConflictingCells
+                        self.puzzleView.setNeedsDisplay()
+                }))
+            }
+            
+            // Clear all conflicting cells
             alertController.addAction(UIAlertAction(
-                title: "Highlight Conflicting Cells",
+                title: "Clear Conflicting Cells",
                 style: .default,
                 handler: { (UIAlertAction) -> Void in
-                    self.puzzleView.showConflictingCells = !self.puzzleView.showConflictingCells
-                    self.puzzleView.setNeedsDisplay()
+                    let secondaryAlertController = UIAlertController(
+                        title: "Clearing all conflicting cells!",
+                        message: "Are you sure?",
+                        preferredStyle: .alert
+                    )
+                    secondaryAlertController.addAction(UIKit.UIAlertAction(
+                        title: "Cancel",
+                        style: .cancel,
+                        handler: nil
+                    ))
+                    secondaryAlertController.addAction(UIKit.UIAlertAction(
+                        title: "Yes",
+                        style: .default,
+                        handler: { (UIAlertAction) -> Void in
+                            puzzle?.clearAllConflictingCells()
+                            self.puzzleView.setNeedsDisplay()
+                    }))
+                    self.present(secondaryAlertController, animated: true, completion: nil)
             }))
-        }
-        else {
+            
+            // Clears all entered values at all cells
             alertController.addAction(UIAlertAction(
-                title: "Stop Highlighting Conflicting Cells",
+                title: "Clear All Entered Values",
                 style: .default,
                 handler: { (UIAlertAction) -> Void in
-                    self.puzzleView.showConflictingCells = !self.puzzleView.showConflictingCells
-                    self.puzzleView.setNeedsDisplay()
+                    let secondaryAlertController = UIAlertController(
+                        title: "Clearing all entered values!",
+                        message: "Are you sure?",
+                        preferredStyle: .alert
+                    )
+                    secondaryAlertController.addAction(UIKit.UIAlertAction(
+                        title: "Cancel",
+                        style: .cancel,
+                        handler: nil
+                    ))
+                    secondaryAlertController.addAction(UIKit.UIAlertAction(
+                        title: "Yes",
+                        style: .default,
+                        handler: { (UIAlertAction) -> Void in
+                            puzzle?.clearAllCells()
+                            //puzzle?.clearAllPencilsForEachCell()
+                            self.puzzleView.setNeedsDisplay()
+                    }))
+                    self.present(secondaryAlertController, animated: true, completion: nil)
+            }))
+            
+            
+            // Clears all penciled values for all cells
+            alertController.addAction(UIAlertAction(
+                title: "Clear All Penciled Values",
+                style: .default,
+                handler: { (UIAlertAction) -> Void in
+                    let secondaryAlertController = UIAlertController(
+                        title: "Clearing all penciled values!",
+                        message: "Are you sure?",
+                        preferredStyle: .alert
+                    )
+                    secondaryAlertController.addAction(UIKit.UIAlertAction(
+                        title: "Cancel",
+                        style: .cancel,
+                        handler: nil
+                    ))
+                    secondaryAlertController.addAction(UIKit.UIAlertAction(
+                        title: "Yes",
+                        style: .default,
+                        handler: { (UIAlertAction) -> Void in
+                            puzzle?.clearAllPencilsForEachCell()
+                            self.puzzleView.setNeedsDisplay()
+                    }))
+                    self.present(secondaryAlertController, animated: true, completion: nil)
             }))
         }
-        
-        // Clear all conflicting cells
-        alertController.addAction(UIAlertAction(
-            title: "Clear Conflicting Cells",
-            style: .default,
-            handler: { (UIAlertAction) -> Void in
-                let secondaryAlertController = UIAlertController(
-                    title: "Clearing all conflicting cells!",
-                    message: "Are you sure?",
-                    preferredStyle: .alert
-                )
-                secondaryAlertController.addAction(UIKit.UIAlertAction(
-                    title: "Cancel",
-                    style: .cancel,
-                    handler: nil
-                ))
-                secondaryAlertController.addAction(UIKit.UIAlertAction(
-                    title: "Yes",
-                    style: .default,
-                    handler: { (UIAlertAction) -> Void in
-                        puzzle?.clearAllConflictingCells()
-                        self.puzzleView.setNeedsDisplay()
-                }))
-                self.present(secondaryAlertController, animated: true, completion: nil)
-        }))
-        
-        // Clears all entered values at all cells
-        alertController.addAction(UIAlertAction(
-            title: "Clear All Entered Values",
-            style: .default,
-            handler: { (UIAlertAction) -> Void in
-                let secondaryAlertController = UIAlertController(
-                    title: "Clearing all entered values!",
-                    message: "Are you sure?",
-                    preferredStyle: .alert
-                )
-                secondaryAlertController.addAction(UIKit.UIAlertAction(
-                    title: "Cancel",
-                    style: .cancel,
-                    handler: nil
-                ))
-                secondaryAlertController.addAction(UIKit.UIAlertAction(
-                    title: "Yes",
-                    style: .default,
-                    handler: { (UIAlertAction) -> Void in
-                        puzzle?.clearAllCells()
-                        //puzzle?.clearAllPencilsForEachCell()
-                        self.puzzleView.setNeedsDisplay()
-                }))
-                self.present(secondaryAlertController, animated: true, completion: nil)
-        }))
-        
-        // Clears all penciled values for all cells
-        alertController.addAction(UIAlertAction(
-            title: "Clear All Penciled Values",
-            style: .default,
-            handler: { (UIAlertAction) -> Void in
-                let secondaryAlertController = UIAlertController(
-                    title: "Clearing all penciled values!",
-                    message: "Are you sure?",
-                    preferredStyle: .alert
-                )
-                secondaryAlertController.addAction(UIKit.UIAlertAction(
-                    title: "Cancel",
-                    style: .cancel,
-                    handler: nil
-                ))
-                secondaryAlertController.addAction(UIKit.UIAlertAction(
-                    title: "Yes",
-                    style: .default,
-                    handler: { (UIAlertAction) -> Void in
-                        puzzle?.clearAllPencilsForEachCell()
-                        self.puzzleView.setNeedsDisplay()
-                }))
-                self.present(secondaryAlertController, animated: true, completion: nil)
-        }))
-        
          // ... add other actions ...
         if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad {
             let popoverPresenter = alertController.popoverPresentationController
@@ -315,5 +344,6 @@ class ViewController: UIViewController {
         }
         self.present(alertController, animated: true, completion: nil)
     }
+    
 }
 
