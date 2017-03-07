@@ -28,22 +28,36 @@ class SudokuPuzzle {
     
     
     
-//    // Read from plist compatible array (used for data persistence)
-//    func savedState() -> NSArray {
-//        let archiveName = sandboxArchivePath()
-//        if FileManager.default.fileExists(atPath: archiveName) { // If saved file exists, load it, otherwise shuffle
-//            let savedState = NSArray(contentsOfFile: archiveName) // Grab saved state and cast it to a double int array
-//            return savedState! as NSArray
-//        }
-//        return [0]
-//    }
-//    
-//    // Set to plist compatible array (used for data persistence)
-//    func setState() {
-//        let archiveName = sandboxArchivePath()
-//        let savedState : NSArray = puzzle as NSArray // Saved the state as an NS array
-//        savedState.write(toFile : archiveName, atomically : true) // Write to the archive
-//    }
+    // Set  to plist compatible array (used for data persistence)
+    func savedState() -> NSArray {
+        let puzzleArray = NSMutableArray(capacity: 9*9)
+        
+        for r in 0 ..< 9 {
+            for c in 0 ..< 9 {
+                let cell = puzzle[r][c]
+                let dict : NSDictionary = ["number" : cell.number as Int, "pencils" : cell.pencils as [Bool], "fixed" : cell.fixed as Bool]
+                puzzleArray.add(dict)
+            }
+        }
+        NSLog("\(puzzleArray)")
+        return puzzleArray
+    }
+    
+    // Read from plist compatible array (used for data persistence)
+    func setState(puzzleArray : NSArray) {
+        var n = 0
+        
+        NSLog("\(puzzleArray)")
+        
+        for r in 0 ..< 9 {
+            for c in 0 ..< 9 {
+                let puzzle = (puzzleArray[n] as AnyObject).value(forKey: "number")
+                
+//                puzzle[r][c].number = 
+            }
+            n = n + 1
+        }
+    }
     
     // Load new game encoded with given string (see Section 4.1)
     func loadPuzzle(puzzleString: String) {

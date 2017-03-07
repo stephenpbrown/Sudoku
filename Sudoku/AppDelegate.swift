@@ -42,8 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let archiveName = sandboxArchivePath()
         if FileManager.default.fileExists(atPath: archiveName) { // If saved file exists, load it, otherwise load random puzzle
             NSLog("Loading puzzle")
-            let savedPuzzle = NSArray(contentsOfFile: archiveName) as! [[SudokuPuzzle.cell]]
-            sudoku!.puzzle = savedPuzzle
+            let savedPuzzle = NSArray(contentsOfFile: archiveName)
+            self.sudoku?.setState(puzzleArray: savedPuzzle!)
         }
         else {
             NSLog("Loading new puzzle")
@@ -65,9 +65,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NSLog("Entered background")
         let archiveName = sandboxArchivePath()
-        let savedPuzzle : NSArray = sudoku!.puzzle as NSArray // Saved the puzzle as an NS array
-        NSLog("\(savedPuzzle)")
-        let test = savedPuzzle.write(toFile : archiveName, atomically : true) // Write to the archive
+        //let savedPuzzle : NSArray = sudoku!.puzzle as NSArray // Save the puzzle as an NS array
+        //NSLog("\(savedPuzzle)")
+        let savedPuzzle = sudoku?.savedState()
+        let test = savedPuzzle?.write(toFile : archiveName, atomically : true) // Write to the archive
         NSLog("\(test)")
     }
 
