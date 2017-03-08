@@ -41,12 +41,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let archiveName = sandboxArchivePath()
         if FileManager.default.fileExists(atPath: archiveName) { // If saved file exists, load it, otherwise load random puzzle
-            NSLog("Loading puzzle")
+            //NSLog("Loading puzzle")
             let savedPuzzle = NSArray(contentsOfFile: archiveName)
             self.sudoku?.setState(puzzleArray: savedPuzzle!)
         }
         else {
-            NSLog("Loading new puzzle")
+            //NSLog("Loading new puzzle")
             let randomPuzzle = self.randomPuzzle(puzzles: simplePuzzles)
             self.sudoku!.loadPuzzle(puzzleString: randomPuzzle)
         }
@@ -63,13 +63,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
-        NSLog("Entered background")
+        //NSLog("Entered background")
         let archiveName = sandboxArchivePath()
-        //let savedPuzzle : NSArray = sudoku!.puzzle as NSArray // Save the puzzle as an NS array
-        //NSLog("\(savedPuzzle)")
         let savedPuzzle = sudoku?.savedState()
-        let test = savedPuzzle?.write(toFile : archiveName, atomically : true) // Write to the archive
-        NSLog("\(test)")
+        savedPuzzle?.write(toFile : archiveName, atomically : true) // Write to the archive
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

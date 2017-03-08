@@ -29,15 +29,13 @@ class ViewController: UIViewController {
     @IBAction func numberSelected(_ sender: UIButton) {
         let tag = sender.tag
         
-        NSLog("number selected: \(tag)")
+        // NSLog("number selected: \(tag)")
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let puzzle = appDelegate.sudoku
         
         let row = puzzleView.selected.row
         let column = puzzleView.selected.column
-        
-        //NSLog("row = \(row), column = \(column)")
         
         if row >= 0 && column >= 0  && !gameWon {
             
@@ -56,6 +54,7 @@ class ViewController: UIViewController {
             }
             
             var emptyCells = 0
+            
             // Check to see if the game has been solved
             for r in 0 ..< 9 {
                 for c in 0 ..< 9 {
@@ -65,13 +64,13 @@ class ViewController: UIViewController {
                 }
             }
             
-            NSLog("emptyCells = \(emptyCells)")
+            // NSLog("emptyCells = \(emptyCells)")
             
             // If no empty cells left, check for solved game by making sure there are no conflicts
             if emptyCells == 0 {
-                NSLog("Should be zero: \(emptyCells)")
+                // NSLog("Should be zero: \(emptyCells)")
                 if !(puzzle?.anyConflictingCells())! {
-                    NSLog("Puzzle solved!")
+                    // NSLog("Puzzle solved!")
                 
                     gameWon = true
                     let alertController = UIAlertController(
@@ -165,7 +164,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func pencilButton(_ sender: UIButton) {
-        NSLog("pencil")
+        // NSLog("pencil")
         
         pencilEnabled = !pencilEnabled   // toggle
         sender.isSelected = pencilEnabled
@@ -173,7 +172,7 @@ class ViewController: UIViewController {
     
     
     @IBAction func menuButton(_ sender: UIButton) {
-        NSLog("menu")
+        // NSLog("menu")
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let puzzle = appDelegate.sudoku
@@ -334,7 +333,6 @@ class ViewController: UIViewController {
                     self.present(secondaryAlertController, animated: true, completion: nil)
             }))
         }
-         // ... add other actions ...
         if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad {
             let popoverPresenter = alertController.popoverPresentationController
             let menuButtonTag = 12

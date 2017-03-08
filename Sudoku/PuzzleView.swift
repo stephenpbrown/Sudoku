@@ -15,13 +15,13 @@ class PuzzleView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder : aDecoder)
-        NSLog("PuzzleView: init(decoder)")
+        //NSLog("PuzzleView: init(decoder)")
         addMyTapGestureRecognizer()
     }
     
     required override init(frame: CGRect) {
         super.init(frame: frame)
-        NSLog("PuzzleView: init(frame)")
+        //NSLog("PuzzleView: init(frame)")
         addMyTapGestureRecognizer()
     }
     
@@ -47,7 +47,7 @@ class PuzzleView: UIView {
     // An empty implementation adversely affects performance during animation.
     override func draw(_ rect: CGRect) {
         
-        NSLog("drawRect")
+        //NSLog("drawRect")
         
         let boardRect = self.BoardRect()
         
@@ -98,11 +98,6 @@ class PuzzleView: UIView {
         
         let pencilFont = UIFont(name: "Helvetica-Bold", size: 12)
         let pencilAttributes = [NSFontAttributeName : pencilFont!, NSForegroundColorAttributeName : UIColor.black]
-        
-        // Temp number, row, and col
-        //let number = 3 // TEMP YO
-        //let row = 1
-        //let col = 0
         
         let gridSize = boardRect.width
         let delta = gridSize/3
@@ -167,7 +162,7 @@ class PuzzleView: UIView {
     
     func handleTap(_ sender : UIGestureRecognizer) {
         let tapPoint = sender.location(in: self)
-        NSLog("Tap!")
+        //NSLog("Tap!")
         
         //    ... compute gridOrigin and d as done in drawRect ...
         let boardRect = self.BoardRect()
@@ -185,7 +180,7 @@ class PuzzleView: UIView {
         if 0 <= col && col < 9 && 0 <= row && row < 9 { // if inside puzzle bounds
             if (!puzzle!.numberIsFixedAtRow(row: row, column: col)) { // and not a "fixed number"
                 if (row != selected.row || col != selected.column) { // and not already selected
-                    NSLog("Highlight")
+                    //NSLog("Highlight")
                     selected.row = row // then select cell
                     selected.column = col
                     setNeedsDisplay() // request redraw

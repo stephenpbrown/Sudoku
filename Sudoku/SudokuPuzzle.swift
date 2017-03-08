@@ -20,7 +20,7 @@ class SudokuPuzzle {
     
     // Creates empty puzzle
     init() {
-        NSLog("init in SudokuPuzzle")
+        // NSLog("init in SudokuPuzzle")
         
         // Initializes puzzle
         self.puzzle = Array(repeating: Array(repeating: cell(), count: 9), count: 9)
@@ -39,23 +39,17 @@ class SudokuPuzzle {
                 puzzleArray.add(dict)
             }
         }
-        NSLog("\(puzzleArray)")
         return puzzleArray
     }
     
     // Read from plist compatible array (used for data persistence)
     func setState(puzzleArray : NSArray) {
-        var n = 0
-        
-        NSLog("\(puzzleArray)")
-        
         for r in 0 ..< 9 {
             for c in 0 ..< 9 {
-                let puzzle = (puzzleArray[n] as AnyObject).value(forKey: "number")
-                
-//                puzzle[r][c].number = 
+                puzzle[r][c].number = (puzzleArray[r*9+c] as! NSDictionary).value(forKey: "number") as! Int
+                puzzle[r][c].pencils = (puzzleArray[r*9+c] as! NSDictionary).value(forKey: "pencils") as! [Bool]
+                puzzle[r][c].fixed = (puzzleArray[r*9+c] as! NSDictionary).value(forKey: "fixed") as! Bool
             }
-            n = n + 1
         }
     }
     
@@ -65,13 +59,9 @@ class SudokuPuzzle {
         // Parse the string into an array of characters: stackoverflow.com/questions/25921204/convert-swift-string-to-array
         let characters = puzzleString.characters.map { String($0) }
         
-        // NSLog("\(characters)")
-        
         var count = 0
         for r in 0 ..< 9 {
             for c in 0 ..< 9 {
-                //NSLog("row = \(r), col = \(c), number = \(characters[count])")
-                
                 if characters[count] != "." {
                     puzzle[r][c].number = Int(characters[count])!
                     puzzle[r][c].fixed = true
@@ -194,7 +184,6 @@ class SudokuPuzzle {
     
     // Pencil the value n in
     func setPencil(n: Int, row: Int, column: Int) {
-        NSLog("n = \(n), row = \(row), column = \(column)")
         puzzle[row][column].pencils[n] = true
     }
     
