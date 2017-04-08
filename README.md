@@ -22,7 +22,7 @@ to start a new easy or hard game.
 
 Build/Run Info:
 1.  Choose a directory to clone repository into
-2.  run "git clone git@gitlab.encs.vancouver.wsu.edu:aerologic/Sudoku.git" in terminal
+2.  run "git clone git@github.com:stephenpbrown/Sudoku.git" in terminal
 3.  Open Xcode and navigate to the project using file->open
 4.  Once project loads into Xcode, hit the "play/build" button in the upper left cornerin order to build and run the program.
 (NOTE: If using the encs lab computers, make sure to run /etc/devme, /etc/homeme, and /etc/simme in order to use
