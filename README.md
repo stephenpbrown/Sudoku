@@ -1,7 +1,10 @@
 Project Title: Sudoku Puzzle
 
 Author:
-Stephen Brown | stephen.p.brown@wsu.edu | 11466405
+Stephen Brown | brownstephenp@gmail.com
+
+License:
+This project is for learning uses only and cannot be used for financial gain.
 
 Sudoku:
 This project involved utilizing IB and the model-view-matrix paradigm to create a sudoku puzzle game.
