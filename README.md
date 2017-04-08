@@ -8,7 +8,7 @@ Author:
 
 License:
 ----------
-This project is for learning uses only and cannot be used for financial gain.
+>This project is for learning uses only and cannot be used for financial gain.
 
 Sudoku:
 ----------
