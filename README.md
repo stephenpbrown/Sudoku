@@ -1,12 +1,17 @@
 Project Title: Sudoku Puzzle
+----------
 
-Author:
-Stephen Brown | brownstephenp@gmail.com
+Author: 
+----------
+>* Name: Stephen Brown 
+* Email: BrownStephenP@gmail.com
 
 License:
+----------
 This project is for learning uses only and cannot be used for financial gain.
 
 Sudoku:
+----------
 This project involved utilizing IB and the model-view-matrix paradigm to create a sudoku puzzle game.
 For IB, I used auto-layout using contraints in order to keep the background and puzzle views centered,
 and the tiles are placed programmatically. The tiles (buttons) are also placed differently depending on the
@@ -14,6 +19,7 @@ size of the device. The game is also playable in landscape or portrait modes. Th
 data persistence, which allows the game to be saved and loaded again once the user starts playing again.
 
 Description:
+-----------
 The puzzle itself is a 9x9 grid, with a button layout of 1-9, a pencil toggle button, a delete button and a
 menu button. The pencil toggle button allows the user to pencil in 1-9 values into the puzzle. If the toggle
 button is still enabled and the delete button is selected, the game will confirm that you want to delete all
@@ -24,6 +30,7 @@ highlighting them red. Once all the cells are filled and there are no conflictin
 to start a new easy or hard game. 
 
 Build/Run Info:
+------------
 1.  Choose a directory to clone repository into
 2.  run "git clone git@github.com:stephenpbrown/Sudoku.git" in terminal
 3.  Open Xcode and navigate to the project using file->open
